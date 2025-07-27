@@ -1,0 +1,39 @@
+---
+title: "About"
+---
+
+```{r}
+library(tidyverse)
+library(readxl)             
+library(tidymodels)     
+library(broom)          
+library(marginaleffects) 
+library(easystats) 
+library(dplyr)
+library(stringr)
+
+x <- read_xlsx("Data_Train.xlsx")
+
+
+
+x1 <- x %>%
+  mutate(
+    duration_hr = str_extract(Duration, "\\d+h") %>%             # 抓 "2h"
+      str_remove("h") %>%                                        # 去除 h
+      as.numeric(),
+    
+    duration_min = str_extract(Duration, "\\d+m") %>%            # 抓 "50m"
+      str_remove("m") %>%                                        # 去除 m
+      as.numeric(),
+    
+    duration_hr = if_else(is.na(duration_hr), 0, duration_hr),   # 沒有小時時補 0
+    duration_min = if_else(is.na(duration_min), 0, duration_min),# 沒有分鐘時補 0
+    
+    duration_total_hr = duration_hr + duration_min / 60          # 合併為小時數
+  )
+
+
+linear_reg()|>
+    fit(Price ~ Airline + Total_Stops + duration_total_hr, data = x1)
+
+```
