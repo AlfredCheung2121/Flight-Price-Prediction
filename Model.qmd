@@ -1,0 +1,96 @@
+---
+title: "Model"
+format: html
+Author: Alfred Cheung
+
+execute: 
+  message: false
+  echo: false
+  warning: false
+---
+
+
+```{r}
+library(tidyverse)
+library(readxl)             
+library(tidymodels)     
+library(broom)          
+library(marginaleffects) 
+library(easystats) 
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+x <- read_xlsx("Data_Train.xlsx")
+
+
+
+x1 <- x %>%
+  mutate(
+    duration_hr = str_extract(Duration, "\\d+h") %>%             # 抓 "2h"
+      str_remove("h") %>%                                        # 去除 h
+      as.numeric(),
+    
+    duration_min = str_extract(Duration, "\\d+m") %>%            # 抓 "50m"
+      str_remove("m") %>%                                        # 去除 m
+      as.numeric(),
+    
+    duration_hr = if_else(is.na(duration_hr), 0, duration_hr),   # 沒有小時時補 0
+    duration_min = if_else(is.na(duration_min), 0, duration_min),# 沒有分鐘時補 0
+    
+    duration_total_hr = duration_hr + duration_min / 60          # 合併為小時數
+  )
+
+```
+
+
+```{r}
+x2<-linear_reg()|>
+    fit(Price ~ Airline + Total_Stops + duration_total_hr, data = x1)
+
+
+```
+
+
+
+```{r}
+library(tibble)
+library(gt)
+
+# Create tribble with all coefficients
+tribble(
+  ~Variable, ~Coefficient,
+  "(Intercept)", 7753.1051,
+  "AirlineAir India", 1851.8817,
+  "AirlineGoAir", -37.7565,
+  "AirlineIndiGo", 267.0302,
+  "AirlineJet Airways", 4158.9695,
+  "AirlineJet Airways Business", 49940.6468,
+  "AirlineMultiple carriers", 3048.7654,
+  "AirlineMultiple carriers Premium economy", 3658.2822,
+  "AirlineSpiceJet", -207.9855,
+  "AirlineTrujet", -3615.5031,
+  "AirlineVistara", 2195.2227,
+  "AirlineVistara Premium economy", 5125.2326,
+  "Total_Stops2 stops", 1980.4793,
+  "Total_Stops3 stops", 3275.2042,
+  "Total_Stops4 stops", 8059.2467,
+  "Total_Stopsnon-stop", -3917.8899,
+  "duration_total_hr", 0.7378
+)|>
+    gt() 
+
+# Display the tibble
+```
+
+
+```{r}
+tidy(x2, conf.int =TRUE)
+``` 
+```{r}
+predictions(x2)
+```
+
+
+

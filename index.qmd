@@ -1,7 +1,153 @@
 ---
-title: "Final Project"
+title: "Flight Price Prediction"
+Author: Alfred Cheung
+
+execute: 
+  message: false
+  echo: false
+  warning: false
 ---
 
-This is a Quarto website.
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+```{r}
+library(tidyverse)
+library(readxl)             
+library(tidymodels)     
+library(broom)          
+library(marginaleffects) 
+library(easystats) 
+library(dplyr)
+library(stringr)
+
+x <- read_xlsx("Data_Train.xlsx")
+
+
+
+x1 <- x %>%
+  mutate(
+    duration_hr = str_extract(Duration, "\\d+h") %>%             # 抓 "2h"
+      str_remove("h") %>%                                        # 去除 h
+      as.numeric(),
+    
+    duration_min = str_extract(Duration, "\\d+m") %>%            # 抓 "50m"
+      str_remove("m") %>%                                        # 去除 m
+      as.numeric(),
+    
+    duration_hr = if_else(is.na(duration_hr), 0, duration_hr),   # 沒有小時時補 0
+    duration_min = if_else(is.na(duration_min), 0, duration_min),# 沒有分鐘時補 0
+    
+    duration_total_hr = duration_hr + duration_min / 60          # 合併為小時數
+  )
+
+```
+
+```{r}
+ggplot(x1, aes(x = reorder(Airline, Price, FUN = mean), y = Price, fill = Airline)) +
+  stat_summary(fun = mean, geom = "bar", alpha = 0.7) +
+  stat_summary(fun.data = mean_cl_normal, geom = "errorbar", width = 0.2) +
+  labs(
+    title = "Average Flight Price by Airline",
+    x = "Airline",
+    y = "Average Price"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none") +
+  coord_flip()
+
+```
+
+This graph shows the average flight prices across different airlines and service classes, with Jet Airways Business class commanding the highest prices around 60,000 units, followed by regular Jet Airways at approximately 10,000 units. The premium economy options from multiple carriers and Vistara fall in the mid-range around 8,000-12,000 units. Budget carriers like SpiceJet, TruJet, Air Asia, and IndiGo cluster at the lower end with prices under 5,000 units, while full-service carriers like Air India, GoAir, and Vistara's regular economy fall in the middle range around 5,000-8,000 units.
+
+
+
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+# Assuming your data is in a dataframe called 'x1'
+# If not, replace 'x1' with your actual dataframe name
+
+# Create a boxplot showing price distribution by total stops
+p1 <- ggplot(x1, aes(x = Total_Stops, y = Price, fill = Total_Stops)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.3, size = 0.5) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Flight Price Distribution by Number of Stops",
+       subtitle = "Boxplot with individual data points",
+       x = "Number of Stops",
+       y = "Price (₹)",
+       fill = "Stops") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +
+  scale_fill_brewer(palette = "Set3")
+
+# Create a violin plot for better distribution visualization
+p2 <- ggplot(x1, aes(x = Total_Stops, y = Price, fill = Total_Stops)) +
+  geom_violin(alpha = 0.7) +
+  geom_boxplot(width = 0.1, alpha = 0.8, outlier.shape = NA) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = "Flight Price Distribution by Number of Stops",
+       subtitle = "Violin plot showing price density",
+       x = "Number of Stops",
+       y = "Price (₹)",
+       fill = "Stops") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +
+  scale_fill_brewer(palette = "Set2")
+
+# Create summary statistics
+price_summary <- x1 %>%
+  group_by(Total_Stops) %>%
+  summarise(
+    count = n(),
+    mean_price = mean(Price, na.rm = TRUE),
+    median_price = median(Price, na.rm = TRUE),
+    sd_price = sd(Price, na.rm = TRUE),
+    min_price = min(Price, na.rm = TRUE),
+    max_price = max(Price, na.rm = TRUE)
+  ) %>%
+  arrange(desc(mean_price))
+
+# Create a bar plot of average prices
+p3 <- ggplot(price_summary, aes(x = reorder(Total_Stops, mean_price), y = mean_price, fill = Total_Stops)) +
+  geom_col(alpha = 0.8) +
+  geom_text(aes(label = paste0("₹", round(mean_price, 0))), 
+            hjust = -0.1, size = 3) +
+  scale_y_continuous(labels = scales::comma, expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Average Flight Price by Number of Stops",
+       subtitle = "Mean prices with values labeled",
+       x = "Number of Stops",
+       y = "Average Price (₹)",
+       fill = "Stops") +
+  theme_minimal() +
+  coord_flip() +
+  theme(legend.position = "none") +
+  scale_fill_brewer(palette = "Set1")
+
+# Display the plots
+
+print(p2)
+
+# Print summary statistics
+cat("\nSummary Statistics by Total Stops:\n")
+print(price_summary)
+
+# Additional analysis - correlation if we convert stops to numeric
+stops_numeric <- case_when(
+  x1$Total_Stops == "non-stop" ~ 0,
+  x1$Total_Stops == "1 stop" ~ 1,
+  x1$Total_Stops == "2 stops" ~ 2,
+  x1$Total_Stops == "3 stops" ~ 3,
+  x1$Total_Stops == "4 stops" ~ 4,
+  TRUE ~ NA_real_
+)
+
+correlation <- cor(stops_numeric, x1$Price, use = "complete.obs")
+cat(paste("\nCorrelation between number of stops and price:", round(correlation, 3)))
+```
+
+
