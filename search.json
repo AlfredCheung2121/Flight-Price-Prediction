@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "Sources.html",
+    "href": "Sources.html",
+    "title": "Sources",
+    "section": "",
+    "text": "I get the data from kaggle"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Flight Price Prediction",
+    "section": "",
+    "text": "This graph shows the average flight prices across different airlines and service classes, with Jet Airways Business class commanding the highest prices around 60,000 units, followed by regular Jet Airways at approximately 10,000 units. The premium economy options from multiple carriers and Vistara fall in the mid-range around 8,000-12,000 units. Budget carriers like SpiceJet, TruJet, Air Asia, and IndiGo cluster at the lower end with prices under 5,000 units, while full-service carriers like Air India, GoAir, and Vistara’s regular economy fall in the middle range around 5,000-8,000 units.\n\n\n\n\n\n\n\n\n\n\nSummary Statistics by Total Stops:\n\n\n# A tibble: 6 × 7\n  Total_Stops count mean_price median_price sd_price min_price max_price\n  &lt;chr&gt;       &lt;int&gt;      &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;\n1 4 stops         1     17686         17686      NA      17686     17686\n2 3 stops        45     13112         12954    2963.      8607     21829\n3 2 stops      1520     12716.        12760    3384.      4647     52285\n4 1 stop       5625     10594.        10262    4282.      3480     79512\n5 &lt;NA&gt;            1      7480          7480      NA       7480      7480\n6 non-stop     3491      5025.         4667    2078.      1759     31945\n\n\n\nCorrelation between number of stops and price: 0.604"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Github\nemail\nAlfred is a data technology enthusiast who demonstrates strong analytical skills and learning agility.I am doing a data science project about the Flight Price Prediction. https://github.com/AlfredCheung2121/baseball-replication\nThis project was created as a part of Kane’s Data Science Bootcamp. Kane’s Free Data Science Bootcamp"
+  },
+  {
+    "objectID": "Model.html",
+    "href": "Model.html",
+    "title": "Model",
+    "section": "",
+    "text": "Variable\nCoefficient\n\n\n\n\n(Intercept)\n7753.1051\n\n\nAirlineAir India\n1851.8817\n\n\nAirlineGoAir\n-37.7565\n\n\nAirlineIndiGo\n267.0302\n\n\nAirlineJet Airways\n4158.9695\n\n\nAirlineJet Airways Business\n49940.6468\n\n\nAirlineMultiple carriers\n3048.7654\n\n\nAirlineMultiple carriers Premium economy\n3658.2822\n\n\nAirlineSpiceJet\n-207.9855\n\n\nAirlineTrujet\n-3615.5031\n\n\nAirlineVistara\n2195.2227\n\n\nAirlineVistara Premium economy\n5125.2326\n\n\nTotal_Stops2 stops\n1980.4793\n\n\nTotal_Stops3 stops\n3275.2042\n\n\nTotal_Stops4 stops\n8059.2467\n\n\nTotal_Stopsnon-stop\n-3917.8899\n\n\nduration_total_hr\n0.7378\n\n\n\n\n\n\n\n\n\n# A tibble: 17 × 7\n   term                estimate std.error statistic   p.value conf.low conf.high\n   &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;\n 1 (Intercept)          7.75e+3    186.      41.6   0           7388.     8118. \n 2 AirlineAir India     1.85e+3    191.       9.71  3.54e- 22   1478.     2226. \n 3 AirlineGoAir        -3.78e+1    276.      -0.137 8.91e-  1   -580.      504. \n 4 AirlineIndiGo        2.67e+2    183.       1.46  1.44e-  1    -90.9     625. \n 5 AirlineJet Airways   4.16e+3    180.      23.1   8.35e-115   3805.     4513. \n 6 AirlineJet Airways…  4.99e+4   1251.      39.9   0          47488.    52393. \n 7 AirlineMultiple ca…  3.05e+3    196.      15.6   5.36e- 54   2665.     3433. \n 8 AirlineMultiple ca…  3.66e+3    859.       4.26  2.09e-  5   1974.     5343. \n 9 AirlineSpiceJet     -2.08e+2    201.      -1.03  3.01e-  1   -602.      186. \n10 AirlineTrujet       -3.62e+3   3038.      -1.19  2.34e-  1  -9571.     2340. \n11 AirlineVistara       2.20e+3    220.       9.96  2.91e- 23   1763.     2627. \n12 AirlineVistara Pre…  5.13e+3   1760.       2.91  3.59e-  3   1676.     8574. \n13 Total_Stops2 stops   1.98e+3    101.      19.6   2.96e- 84   1783.     2178. \n14 Total_Stops3 stops   3.28e+3    463.       7.08  1.53e- 12   2368.     4182. \n15 Total_Stops4 stops   8.06e+3   3035.       2.66  7.94e-  3   2110.    14009. \n16 Total_Stopsnon-stop -3.92e+3     93.7    -41.8   0          -4102.    -3734. \n17 duration_total_hr    7.38e-1      5.57     0.132 8.95e-  1    -10.2      11.7\n\n\n\n\n\n Estimate Std. Error     z Pr(&gt;|z|)     S 2.5 % 97.5 %\n     4104       74.1  55.4   &lt;0.001   Inf  3959   4250\n    11591      117.9  98.3   &lt;0.001   Inf 11360  11822\n    13907       91.3 152.4   &lt;0.001   Inf 13728  14085\n     8024       86.4  92.9   &lt;0.001   Inf  7855   8193\n     8024       87.7  91.5   &lt;0.001   Inf  7852   8196\n--- 10672 rows omitted. See ?print.marginaleffects ---\n     3837      173.0  22.2   &lt;0.001 359.8  3498   4176\n     5689       97.7  58.2   &lt;0.001   Inf  5498   5880\n     7996       79.4 100.7   &lt;0.001   Inf  7841   8152\n     6032      143.6  42.0   &lt;0.001   Inf  5751   6314\n    11592      114.7 101.1   &lt;0.001   Inf 11367  11816\nType: numeric"
+  }
+]
