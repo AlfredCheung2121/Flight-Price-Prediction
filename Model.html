@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Model – Final Project</title>
+<title>Model – Flight Price Prediction</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -68,6 +68,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -80,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Final Project</span>
+    <span class="navbar-title">Flight Price Prediction</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -143,23 +172,23 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="cell">
 <div class="cell-output-display">
-<div id="fbiysquwse" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#fbiysquwse table {
+<div id="mmorwirdeh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#mmorwirdeh table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#fbiysquwse thead, #fbiysquwse tbody, #fbiysquwse tfoot, #fbiysquwse tr, #fbiysquwse td, #fbiysquwse th {
+#mmorwirdeh thead, #mmorwirdeh tbody, #mmorwirdeh tfoot, #mmorwirdeh tr, #mmorwirdeh td, #mmorwirdeh th {
   border-style: none;
 }
 
-#fbiysquwse p {
+#mmorwirdeh p {
   margin: 0;
   padding: 0;
 }
 
-#fbiysquwse .gt_table {
+#mmorwirdeh .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -185,12 +214,12 @@ ul.task-list li input[type="checkbox"] {
   border-left-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_caption {
+#mmorwirdeh .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#fbiysquwse .gt_title {
+#mmorwirdeh .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -202,7 +231,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-width: 0;
 }
 
-#fbiysquwse .gt_subtitle {
+#mmorwirdeh .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -214,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-width: 0;
 }
 
-#fbiysquwse .gt_heading {
+#mmorwirdeh .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -226,13 +255,13 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_bottom_border {
+#mmorwirdeh .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_col_headings {
+#mmorwirdeh .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -247,7 +276,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_col_heading {
+#mmorwirdeh .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -267,7 +296,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#fbiysquwse .gt_column_spanner_outer {
+#mmorwirdeh .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -279,15 +308,15 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 4px;
 }
 
-#fbiysquwse .gt_column_spanner_outer:first-child {
+#mmorwirdeh .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#fbiysquwse .gt_column_spanner_outer:last-child {
+#mmorwirdeh .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#fbiysquwse .gt_column_spanner {
+#mmorwirdeh .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -299,11 +328,11 @@ ul.task-list li input[type="checkbox"] {
   width: 100%;
 }
 
-#fbiysquwse .gt_spanner_row {
+#mmorwirdeh .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#fbiysquwse .gt_group_heading {
+#mmorwirdeh .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -329,7 +358,7 @@ ul.task-list li input[type="checkbox"] {
   text-align: left;
 }
 
-#fbiysquwse .gt_empty_group_heading {
+#mmorwirdeh .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -344,15 +373,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 
-#fbiysquwse .gt_from_md > :first-child {
+#mmorwirdeh .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#fbiysquwse .gt_from_md > :last-child {
+#mmorwirdeh .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#fbiysquwse .gt_row {
+#mmorwirdeh .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -371,7 +400,7 @@ ul.task-list li input[type="checkbox"] {
   overflow-x: hidden;
 }
 
-#fbiysquwse .gt_stub {
+#mmorwirdeh .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -384,7 +413,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#fbiysquwse .gt_stub_row_group {
+#mmorwirdeh .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -398,15 +427,15 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: top;
 }
 
-#fbiysquwse .gt_row_group_first td {
+#mmorwirdeh .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#fbiysquwse .gt_row_group_first th {
+#mmorwirdeh .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#fbiysquwse .gt_summary_row {
+#mmorwirdeh .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -416,16 +445,16 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#fbiysquwse .gt_first_summary_row {
+#mmorwirdeh .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_first_summary_row.thick {
+#mmorwirdeh .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#fbiysquwse .gt_last_summary_row {
+#mmorwirdeh .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -435,7 +464,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_grand_summary_row {
+#mmorwirdeh .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -445,7 +474,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#fbiysquwse .gt_first_grand_summary_row {
+#mmorwirdeh .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -455,7 +484,7 @@ ul.task-list li input[type="checkbox"] {
   border-top-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_last_grand_summary_row_top {
+#mmorwirdeh .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -465,11 +494,11 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_striped {
+#mmorwirdeh .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#fbiysquwse .gt_table_body {
+#mmorwirdeh .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -478,7 +507,7 @@ ul.task-list li input[type="checkbox"] {
   border-bottom-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_footnotes {
+#mmorwirdeh .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -492,7 +521,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_footnote {
+#mmorwirdeh .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -501,7 +530,7 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#fbiysquwse .gt_sourcenotes {
+#mmorwirdeh .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -515,7 +544,7 @@ ul.task-list li input[type="checkbox"] {
   border-right-color: #D3D3D3;
 }
 
-#fbiysquwse .gt_sourcenote {
+#mmorwirdeh .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -523,72 +552,72 @@ ul.task-list li input[type="checkbox"] {
   padding-right: 5px;
 }
 
-#fbiysquwse .gt_left {
+#mmorwirdeh .gt_left {
   text-align: left;
 }
 
-#fbiysquwse .gt_center {
+#mmorwirdeh .gt_center {
   text-align: center;
 }
 
-#fbiysquwse .gt_right {
+#mmorwirdeh .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fbiysquwse .gt_font_normal {
+#mmorwirdeh .gt_font_normal {
   font-weight: normal;
 }
 
-#fbiysquwse .gt_font_bold {
+#mmorwirdeh .gt_font_bold {
   font-weight: bold;
 }
 
-#fbiysquwse .gt_font_italic {
+#mmorwirdeh .gt_font_italic {
   font-style: italic;
 }
 
-#fbiysquwse .gt_super {
+#mmorwirdeh .gt_super {
   font-size: 65%;
 }
 
-#fbiysquwse .gt_footnote_marks {
+#mmorwirdeh .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#fbiysquwse .gt_asterisk {
+#mmorwirdeh .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#fbiysquwse .gt_indent_1 {
+#mmorwirdeh .gt_indent_1 {
   text-indent: 5px;
 }
 
-#fbiysquwse .gt_indent_2 {
+#mmorwirdeh .gt_indent_2 {
   text-indent: 10px;
 }
 
-#fbiysquwse .gt_indent_3 {
+#mmorwirdeh .gt_indent_3 {
   text-indent: 15px;
 }
 
-#fbiysquwse .gt_indent_4 {
+#mmorwirdeh .gt_indent_4 {
   text-indent: 20px;
 }
 
-#fbiysquwse .gt_indent_5 {
+#mmorwirdeh .gt_indent_5 {
   text-indent: 25px;
 }
 
-#fbiysquwse .katex-display {
+#mmorwirdeh .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#fbiysquwse div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#mmorwirdeh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -675,6 +704,17 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Price} =\ &amp; 7753.11 + 1851.88 \cdot \text{Airline}_{\text{Air India}} - 37.76 \cdot \text{Airline}_{\text{GoAir}} + 267.03 \cdot \text{Airline}_{\text{IndiGo}} \\
+&amp; + 4158.97 \cdot \text{Airline}_{\text{Jet Airways}} + 49940.65 \cdot \text{Airline}_{\text{Jet Airways Business}} \\
+&amp; + 3048.77 \cdot \text{Airline}_{\text{Multiple carriers}} + 3658.28 \cdot \text{Airline}_{\text{Multiple carriers Premium economy}} \\
+&amp; - 207.99 \cdot \text{Airline}_{\text{SpiceJet}} - 3615.50 \cdot \text{Airline}_{\text{Trujet}} + 2195.22 \cdot \text{Airline}_{\text{Vistara}} \\
+&amp; + 5125.23 \cdot \text{Airline}_{\text{Vistara Premium economy}} + 1980.48 \cdot \text{TotalStops}_{\text{2 stops}} \\
+&amp; + 3275.20 \cdot \text{TotalStops}_{\text{3 stops}} + 8059.25 \cdot \text{TotalStops}_{\text{4 stops}} \\
+&amp; - 3917.89 \cdot \text{TotalStops}_{\text{non-stop}} + 0.74 \cdot \text{Duration (hr)}
+\end{aligned}
+\]</span></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 17 × 7
@@ -717,6 +757,7 @@ ul.task-list li input[type="checkbox"] {
 Type: numeric</code></pre>
 </div>
 </div>
+<p>Most airline and stop-related features significantly influence flight prices, with Jet Airways Business class showing the largest positive effect, while non-stop flights tend to reduce prices substantially.</p>
 
 
 
