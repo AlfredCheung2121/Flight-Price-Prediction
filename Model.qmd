@@ -23,9 +23,10 @@ library(stringr)
 ```{r}
 x <- read_xlsx("Data_Train.xlsx")
 
-
+# Use a R code to do the mutate
 
 x1 <- x %>%
+  filter(Airline != "Jet Airways Business")|>
   mutate(
     duration_hr = str_extract(Duration, "\\d+h") %>%             # 抓 "2h"
       str_remove("h") %>%                                        # 去除 h
@@ -52,69 +53,70 @@ x2<-linear_reg()|>
 ```
 
 
-
+## Table
 ```{r}
 library(tibble)
 library(gt)
 
 # Create tribble with all coefficients
 tribble(
-  ~Variable, ~Coefficient,
-  "(Intercept)", 7753.1051,
-  "AirlineAir India", 1851.8817,
-  "AirlineGoAir", -37.7565,
-  "AirlineIndiGo", 267.0302,
-  "AirlineJet Airways", 4158.9695,
-  "AirlineJet Airways Business", 49940.6468,
-  "AirlineMultiple carriers", 3048.7654,
-  "AirlineMultiple carriers Premium economy", 3658.2822,
-  "AirlineSpiceJet", -207.9855,
-  "AirlineTrujet", -3615.5031,
-  "AirlineVistara", 2195.2227,
-  "AirlineVistara Premium economy", 5125.2326,
-  "Total_Stops2 stops", 1980.4793,
-  "Total_Stops3 stops", 3275.2042,
-  "Total_Stops4 stops", 8059.2467,
-  "Total_Stopsnon-stop", -3917.8899,
-  "duration_total_hr", 0.7378
+  ~Variable, ~Coefficient, ~conf.low, ~conf.high,
+  "(Intercept)", 7753, 7389, 8117,
+  "AirlineAir India", 1846, 1473, 2218,
+  "AirlineGoAir", -37, -577, 503,
+  "AirlineIndiGo", 267, -89, 624,
+  "AirlineJet Airways", 4158, 3806, 4511,
+  "AirlineMultiple carriers", 3050, 2668, 3433,
+  "AirlineMultiple carriers Premium economy", 3661, 1983, 5339,
+  "AirlineSpiceJet", -208, -601, 184,
+  "AirlineTrujet", -3615, -9549, 2319,
+  "AirlineVistara", 2197, 1766, 2627,
+  "AirlineVistara Premium economy", 5124, 1688, 8561,
+  "Total_Stops2 stops", 2002, 1805, 2200,
+  "Total_Stops3 stops", 3286, 2383, 4190,
+  "Total_Stops4 stops", 8073, 2145, 14001,
+  "Total_Stopsnon-stop", -3917, -4100, -3733,
+  "duration_total_hr", 0.495, -10.4, 11.4
 )|>
-    gt() 
+    gt()|>
+    tab_spanner(label = "95% confidence interval", columns = c(`conf.low`, `conf.high`))
 
 # Display the tibble
 ```
 
-
+## Linear Regession Model Equation
 $$
 \begin{aligned}
-\text{Price} =\ & 7753.11 + 1851.88 \cdot \text{Airline}_{\text{Air India}} - 37.76 \cdot \text{Airline}_{\text{GoAir}} + 267.03 \cdot \text{Airline}_{\text{IndiGo}} \\
-& + 4158.97 \cdot \text{Airline}_{\text{Jet Airways}} + 49940.65 \cdot \text{Airline}_{\text{Jet Airways Business}} \\
-& + 3048.77 \cdot \text{Airline}_{\text{Multiple carriers}} + 3658.28 \cdot \text{Airline}_{\text{Multiple carriers Premium economy}} \\
-& - 207.99 \cdot \text{Airline}_{\text{SpiceJet}} - 3615.50 \cdot \text{Airline}_{\text{Trujet}} + 2195.22 \cdot \text{Airline}_{\text{Vistara}} \\
-& + 5125.23 \cdot \text{Airline}_{\text{Vistara Premium economy}} + 1980.48 \cdot \text{TotalStops}_{\text{2 stops}} \\
-& + 3275.20 \cdot \text{TotalStops}_{\text{3 stops}} + 8059.25 \cdot \text{TotalStops}_{\text{4 stops}} \\
-& - 3917.89 \cdot \text{TotalStops}_{\text{non-stop}} + 0.74 \cdot \text{Duration (hr)}
+\hat{Y} =\ & 7753 \\
+& + 1846 \cdot \text{Airline}_{\text{Air India}} \\
+& -\ 37 \cdot \text{Airline}_{\text{GoAir}} \\
+& + 267 \cdot \text{Airline}_{\text{IndiGo}} \\
+& + 4158 \cdot \text{Airline}_{\text{Jet Airways}} \\
+& + 3050 \cdot \text{Airline}_{\text{Multiple carriers}} \\
+& + 3661 \cdot \text{Airline}_{\text{Multiple carriers Premium economy}} \\
+& -\ 208 \cdot \text{Airline}_{\text{SpiceJet}} \\
+& -\ 3615 \cdot \text{Airline}_{\text{Trujet}} \\
+& + 2197 \cdot \text{Airline}_{\text{Vistara}} \\
+& + 5124 \cdot \text{Airline}_{\text{Vistara Premium economy}} \\
+& + 2002 \cdot \text{Stops}_{\text{2 stops}} \\
+& + 3286 \cdot \text{Stops}_{\text{3 stops}} \\
+& + 8073 \cdot \text{Stops}_{\text{4 stops}} \\
+& -\ 3917 \cdot \text{Stops}_{\text{non-stop}} \\
+& + 0.495 \cdot \text{duration\_total\_hr}
 \end{aligned}
 $$
 
 
 
-
 ```{r}
-tidy(x2, conf.int =TRUE)
-``` 
-```{r}
-predictions(x2)
-
-
+plot_predictions(x2, by = ("Airline"))
 #Make more plot prediction 
 
 #combine the two table into one table and the formate 
 ```
 
 
-Most airline and stop-related features significantly influence flight prices, with Jet Airways Business class showing the largest positive effect, while non-stop flights tend to reduce prices substantially.
-
-
+The plot illustrates the predicted ticket prices across different airlines based on a linear regression model that incorporates Airline, Total Stops, and Total Duration (hours) as predictors. Each line represents a specific airline, showing how price varies across the observed range of values. Airlines such as Jet Airways, Air India, and Multiple Carriers display wider price ranges and more variability, while budget airlines like GoAir and SpiceJet show tighter, more consistent pricing patterns. The dense overlap of lines in the lower price range (below 20,000) suggests that many airlines operate within similar pricing bands, though premium carriers and classes (e.g., Vistara Premium Economy) occupy higher price segments. This model-based visualization helps identify airline-specific pricing trends and supports comparison across carrier types.
 
 
 
