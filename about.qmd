@@ -6,7 +6,7 @@ AUTHOR: Alfred Cheung
 
 [email](cheungha21@gmail.com)
 
-Alfred is a data technology enthusiast who demonstrates strong analytical skills and learning agility.I am doing a data science project about the Flight Price Prediction. https://github.com/AlfredCheung2121/baseball-replication
+Alfred is a data technology enthusiast who demonstrates strong analytical skills and learning agility.I am doing a data science project about the [Flight Price Prediction](https://github.com/AlfredCheung2121/Flight-Price-Prediction).
 
 This project was created as a part of [Kane's Free Data Science Bootcamp](https://bootcamp.davidkane.info/).
 

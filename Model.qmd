@@ -109,7 +109,9 @@ $$
 
 
 ```{r}
-plot_predictions(x2, by = ("Airline"))
+plot_predictions(x2, by = ("Airline"))+coord_flip()
+
+
 #Make more plot prediction 
 
 #combine the two table into one table and the formate 
