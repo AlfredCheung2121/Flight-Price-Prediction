@@ -5,7 +5,6 @@ Author: Alfred Cheung
 execute: 
   message: false
   echo: false
-  warning: false
 ---
 
 
@@ -15,13 +14,12 @@ library(readxl)
 library(tidymodels)     
 library(broom)          
 library(marginaleffects) 
-library(easystats) 
-library(dplyr)
+library(easystats)
 library(stringr)
 
 x <- read_xlsx("Data_Train.xlsx")
 
-
+# Use a R code to do the mutate
 
 x1 <- x %>%
   mutate(
@@ -60,12 +58,9 @@ This graph shows the average flight prices across different airlines and service
 
 
 
-
+# $ and ,
 
 ```{r}
-library(ggplot2)
-library(dplyr)
-
 # Assuming your data is in a dataframe called 'x1'
 # If not, replace 'x1' with your actual dataframe name
 
@@ -150,4 +145,4 @@ correlation <- cor(stops_numeric, x1$Price, use = "complete.obs")
 cat(paste("\nCorrelation between number of stops and price:", round(correlation, 3)))
 ```
 
-
+# Drop NA and 4 stops just a line 

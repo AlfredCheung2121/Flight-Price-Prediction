@@ -3,4 +3,4 @@ title: "Sources"
 format: html
 ---
 
-I get the data from [kaggle](https://www.kaggle.com/code/anshigupta01/flight-price-prediction/input)
+The data used to create this project came from [Kaggle](https://www.kaggle.com/code/anshigupta01/flight-price-prediction/input). The tidyverse, broom, easystats libraries and AI (chatgpt & claude) were used in this project to make the graphs, models, etc. All of the 10,000 rows of data were taken into consideration in this project.

@@ -17,7 +17,6 @@ library(tidymodels)
 library(broom)          
 library(marginaleffects) 
 library(easystats) 
-library(dplyr)
 library(stringr)
 ```
 
@@ -85,12 +84,43 @@ tribble(
 ```
 
 
+$$
+\begin{aligned}
+\text{Price} =\ & 7753.11 + 1851.88 \cdot \text{Airline}_{\text{Air India}} - 37.76 \cdot \text{Airline}_{\text{GoAir}} + 267.03 \cdot \text{Airline}_{\text{IndiGo}} \\
+& + 4158.97 \cdot \text{Airline}_{\text{Jet Airways}} + 49940.65 \cdot \text{Airline}_{\text{Jet Airways Business}} \\
+& + 3048.77 \cdot \text{Airline}_{\text{Multiple carriers}} + 3658.28 \cdot \text{Airline}_{\text{Multiple carriers Premium economy}} \\
+& - 207.99 \cdot \text{Airline}_{\text{SpiceJet}} - 3615.50 \cdot \text{Airline}_{\text{Trujet}} + 2195.22 \cdot \text{Airline}_{\text{Vistara}} \\
+& + 5125.23 \cdot \text{Airline}_{\text{Vistara Premium economy}} + 1980.48 \cdot \text{TotalStops}_{\text{2 stops}} \\
+& + 3275.20 \cdot \text{TotalStops}_{\text{3 stops}} + 8059.25 \cdot \text{TotalStops}_{\text{4 stops}} \\
+& - 3917.89 \cdot \text{TotalStops}_{\text{non-stop}} + 0.74 \cdot \text{Duration (hr)}
+\end{aligned}
+$$
+
+
+
+
 ```{r}
 tidy(x2, conf.int =TRUE)
 ``` 
 ```{r}
 predictions(x2)
+
+
+#Make more plot prediction 
+
+#combine the two table into one table and the formate 
 ```
+
+
+Most airline and stop-related features significantly influence flight prices, with Jet Airways Business class showing the largest positive effect, while non-stop flights tend to reduce prices substantially.
+
+
+
+
+
+
+
+
 
 
 
