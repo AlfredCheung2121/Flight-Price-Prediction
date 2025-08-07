@@ -1,1 +1,1 @@
-Sitemap: https://AlfredCheung2121.github.io/finalproject/sitemap.xml
+Sitemap: https://AlfredCheung2121.github.io/Flight-Price-Prediction/sitemap.xml
